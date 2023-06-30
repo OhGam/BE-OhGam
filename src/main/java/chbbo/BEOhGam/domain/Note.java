@@ -23,9 +23,9 @@ public class Note {
     @Column
     private String thirdText;
     @Column
-    private String likes;
+    private int likes;
     @Column
-    private String views;
+    private int views;
     @CreationTimestamp  // 작성 될 때 자동으로 날짜 입력
     @Column(updatable = false)  // 업데이트시 관여 X
     private LocalDateTime uploadAt;
