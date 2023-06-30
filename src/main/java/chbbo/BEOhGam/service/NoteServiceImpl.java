@@ -3,9 +3,11 @@ package chbbo.BEOhGam.service;
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.repository.NoteRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 @AllArgsConstructor
 public class NoteServiceImpl implements NoteService {
 
