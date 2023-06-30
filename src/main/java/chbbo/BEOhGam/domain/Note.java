@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,11 +18,9 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String firstText;
-    @Column
-    private String secondText;
-    @Column
-    private String thirdText;
+    private boolean isPublic;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Text> text;
     @Column
     private int likes;
     @Column
