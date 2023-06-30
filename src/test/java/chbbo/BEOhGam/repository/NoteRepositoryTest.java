@@ -18,8 +18,6 @@ public class NoteRepositoryTest {
 
     @Autowired
     NoteRepository noteRepository;
-    @Autowired
-    TextRepository textRepository;
 
     @Test
     @Transactional
@@ -43,13 +41,10 @@ public class NoteRepositoryTest {
         Note note = new Note();
         Text text1 = new Text();
         text1.setContent("감사1");
-        text1.setNote(note);
         Text text2 = new Text();
         text2.setContent("감사2");
-        text2.setNote(note);
         Text text3 = new Text();
         text3.setContent("감사3");
-        text3.setNote(note);
         List<Text> text = new ArrayList<>();
         text.add(text1);
         text.add(text2);
@@ -57,9 +52,6 @@ public class NoteRepositoryTest {
         note.setText(text);
 
         // when
-        textRepository.save(text1);
-        textRepository.save(text2);
-        textRepository.save(text3);
         noteRepository.save(note);
         Note foundNote = noteRepository.findById(note.getId()).get();
 
