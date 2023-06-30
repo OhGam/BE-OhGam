@@ -1,4 +1,7 @@
 package chbbo.BEOhGam.repository;
 
-public interface NoteRepository {
+import chbbo.BEOhGam.domain.Note;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface NoteRepository extends JpaRepository<Note, Long> {
 }
