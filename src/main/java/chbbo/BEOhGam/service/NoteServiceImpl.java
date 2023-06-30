@@ -5,6 +5,7 @@ import chbbo.BEOhGam.repository.NoteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +29,10 @@ public class NoteServiceImpl implements NoteService {
             System.out.println("해당 노트는 존재하지 않습니다");
             return null;
         }
+    }
+
+    @Override
+    public List<Note> findAll() {
+        return noteRepository.findAll();
     }
 }
