@@ -18,7 +18,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private boolean isPublic;
+    private Boolean isPublic;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Text> text;
     @Column
