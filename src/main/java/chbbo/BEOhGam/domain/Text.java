@@ -24,7 +24,7 @@ public class Text {
     public static Text toText(TextDTO textDTO) {
         Text text = new Text();
         text.setId(textDTO.getId());
-        text.setContent(text.getContent());
+        text.setContent(textDTO.getContent());
         return text;
     }
 }
