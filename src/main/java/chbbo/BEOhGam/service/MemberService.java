@@ -1,9 +1,8 @@
 package chbbo.BEOhGam.service;
 
-import chbbo.BEOhGam.domain.Member;
+import chbbo.BEOhGam.dto.MemberDTO;
 
 public interface MemberService {
 
-    void save(Member member);
-
+    Long join(MemberDTO memberDTO);
 }

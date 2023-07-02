@@ -5,8 +5,13 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@Data
+@Builder
 @Getter
 @Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "db_member")
 public class Member {
 
@@ -14,17 +19,19 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false, unique = true)
+    private String userId;
+
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String phone;
 
-    @Column
+    @Column(nullable = false)
     private String nickname;
-
 
 }
