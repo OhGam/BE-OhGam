@@ -31,7 +31,7 @@ public class Member {
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
 }
