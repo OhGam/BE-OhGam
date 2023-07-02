@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -44,5 +45,12 @@ public class NoteController {
         noteService.save(note);
         System.out.println("noteWrite success: " + note);
         return "redirect:/notes";
+    }
+
+    @GetMapping("/notes/{id}")
+    public String noteDetail(@PathVariable Long id, Model model) {
+        Note note = noteService.findNote(id);
+        model.addAttribute("note", note);
+        return "noteDetail";
     }
 }

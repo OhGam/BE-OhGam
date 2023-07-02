@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>noteDetail</title>
+</head>
+<body>
+    <h1><a href="/notes">Main</a></h1>
+    <h2>감사 노트 상세 조회</h2>
+    <table>
+        <tr>
+            <th>노트 아이디</th>
+            <!--            <th>첫 번째 감사</th>-->
+            <!--            <th>두 번째 감사</th>-->
+            <!--            <th>세 번째 감사</th>-->
+            <th>업로드 날짜</th>
+        </tr>
+        <tr>
+            <td th:text="${note.id}"></td>
+            <!--            <td th:each="text: ${note.getText()}">-->
+            <!--                <span th:text="${text.content}"></span>-->
+            <!--            </td>-->
+            <td th:text="*{#temporals.format(note.uploadAt, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+    </table>
+</body>
+</html>

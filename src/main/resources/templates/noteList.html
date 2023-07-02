@@ -17,7 +17,7 @@
             <th>업로드 날짜</th>
         </tr>
         <tr th:each="note: ${notes}" style="text-align: center">
-            <td th:text="${note.id}"></td>
+            <td><a th:href="@{|/notes/${note.id}|}" th:text="${note.id}"></a></td>
 <!--            <td th:each="text: ${note.getText()}">-->
 <!--                <span th:text="${text.content}"></span>-->
 <!--            </td>-->
