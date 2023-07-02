@@ -15,4 +15,6 @@ public interface MemberService {
     Map<String, String> validateHandling(Errors errors);
 
     Long join(MemberDTO memberDTO);
+
+    Long createNickname(MemberDTO memberDTO);
 }

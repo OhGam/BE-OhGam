@@ -48,8 +48,20 @@ public class MemberController {
             return "createMemberForm";
         }
         Long memberId = memberService.join(memberDTO);
-        return "/members/new/nickname";
+        return "createNicknameForm";
     }
 
+    @GetMapping("/members/new/nickname")
+    public String createNicknameForm() {
+
+        return "createNicknameMemberForm";
+    }
+
+    @PostMapping("/members/new/nickname")
+    public String createNickname(@Valid MemberDTO memberDTO) {
+
+        Long memberId = memberService.join(memberDTO);
+        return "redirect:/";
+    }
 
 }

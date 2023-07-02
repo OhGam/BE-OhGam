@@ -4,6 +4,7 @@ import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.dto.MemberDTO;
 import chbbo.BEOhGam.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
@@ -19,18 +20,30 @@ import java.util.Map;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Long join(MemberDTO memberDTO) {
+
+        memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
+
         Member member = Member.builder()
                 .userId(memberDTO.getUserId())
                 .password(memberDTO.getPassword())
                 .username(memberDTO.getUsername())
                 .phone(memberDTO.getPhone())
-                .nickname(memberDTO.getNickname())
                 .build();
 
         return memberRepository.save(member).getId();
+    }
+
+    @Override
+    public Long createNickname(MemberDTO memberDTO) {
+        Member member = Member.builder()
+                .nickname(memberDTO.getNickname())
+                .build();
+
+        return member.getId();
     }
 
     @Transactional(readOnly = true)
