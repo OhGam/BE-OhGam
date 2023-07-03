@@ -10,5 +10,5 @@ public interface NoteService {
 
     Note findNote(Long id);
 
-    List<Note> findAll();
+    List<Note> findAllNote();
 }

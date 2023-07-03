@@ -26,7 +26,7 @@ public class NoteController {
 
     @GetMapping("/notes/list")
     public String noteList(Model model) {
-        List<Note> notes = noteService.findAll();
+        List<Note> notes = noteService.findAllNote();
         model.addAttribute("notes", notes);
         return "noteList";
     }
