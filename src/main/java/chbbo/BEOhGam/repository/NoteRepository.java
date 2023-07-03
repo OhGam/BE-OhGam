@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,6 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     @Query("SELECT distinct n from Note n join FETCH n.text")
     Optional<List<Note>> findAllNote();
+
+    List<Note> findAllByUploadAtBetween(LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
 }
