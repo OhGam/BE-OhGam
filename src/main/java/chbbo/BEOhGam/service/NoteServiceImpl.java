@@ -12,7 +12,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class NoteServiceImpl implements NoteService {
 
-    NoteRepository noteRepository;
+    private final NoteRepository noteRepository;
 
     @Override
     public void save(Note note) {

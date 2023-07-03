@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class NoteController {
 
-    NoteService noteService;
+    private final NoteService noteService;
 
     @GetMapping("/notes")
     public String noteIndex() {
