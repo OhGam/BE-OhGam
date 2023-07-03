@@ -1,6 +1,7 @@
 package chbbo.BEOhGam.controller;
 
 import chbbo.BEOhGam.domain.Note;
+import chbbo.BEOhGam.dto.NoteDTO;
 import chbbo.BEOhGam.service.NoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -52,5 +53,21 @@ public class NoteController {
         Note note = noteService.findNote(id);
         model.addAttribute("note", note);
         return "noteDetail";
+    }
+
+    @GetMapping("notes/{id}/update")
+    public String updateForm(@PathVariable Long id, Model model) {
+        Note note = noteService.findNote(id);
+        model.addAttribute("note", note);
+        return "noteUpdateForm";
+    }
+
+    @PostMapping("notes/{id}/update")
+    public String update(@PathVariable Long id, @ModelAttribute NoteDTO noteDTO) {
+        System.out.println(noteDTO);
+        Note note = Note.toNote(noteDTO);
+        System.out.println(note);
+        noteService.save(note);
+        return "redirect:/notes/list";
     }
 }
