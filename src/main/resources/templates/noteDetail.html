@@ -20,7 +20,7 @@
             <td th:each="text: ${note.text}">
                 <span th:text="${text.content}"></span>
             </td>
-            <td th:text="*{#temporals.format(note.uploadAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="*{#temporals.format(note.uploadAt, 'yyyy년 MM월 dd일의 노트')}"></td>
         </tr>
     </table>
 </body>
