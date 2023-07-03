@@ -16,5 +16,7 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Query("SELECT distinct n from Note n join FETCH n.text")
     Optional<List<Note>> findAllNote();
 
-    List<Note> findAllByUploadAtBetween(LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
+    @Query("SELECT distinct n from Note n join FETCH n.text where n.uploadAt between :minLocalDateTime and :maxLocalDateTime")
+    List<Note> findAllByUploadAtBetween(@Param("minLocalDateTime") LocalDateTime minLocalDateTime,
+                                        @Param("maxLocalDateTime") LocalDateTime maxLocalDateTime);
 }

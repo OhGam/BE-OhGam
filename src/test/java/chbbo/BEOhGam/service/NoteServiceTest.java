@@ -53,11 +53,18 @@ public class NoteServiceTest {
     void findAllByUploadAtTest() {
         Note note1 = new Note();
         Note note2 = new Note();
-        Text text = new Text();
-        text.setContent("hi");
-        List<Text> textList = new ArrayList<>();
-        textList.add(text);
-        note1.setText(textList);
+
+        Text text1 = new Text();
+        text1.setContent("hi");
+        List<Text> textList1 = new ArrayList<>();
+        textList1.add(text1);
+        note1.setText(textList1);
+
+        Text text2 = new Text();
+        text2.setContent("hi");
+        List<Text> textList2 = new ArrayList<>();
+        textList2.add(text2);
+        note2.setText(textList2);
 
         noteService.save(note1);
         noteService.save(note2);
