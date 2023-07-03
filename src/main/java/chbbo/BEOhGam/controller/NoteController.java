@@ -6,37 +6,35 @@ import chbbo.BEOhGam.service.NoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/notes")
 @AllArgsConstructor
 public class NoteController {
 
     private final NoteService noteService;
 
-    @GetMapping("/notes")
+    @GetMapping
     public String noteIndex() {
         return "noteIndex";
     }
 
-    @GetMapping("/notes/list")
+    @GetMapping("/list")
     public String noteList(Model model) {
         List<Note> notes = noteService.findAllNote();
         model.addAttribute("notes", notes);
         return "noteList";
     }
 
-    @GetMapping("/notes/write")
+    @GetMapping("/write")
     public String noteWrite() {
         return "noteWriteForm";
     }
 
-    @PostMapping("/notes/write")
+    @PostMapping("/write")
     public String noteWrite(@ModelAttribute Note note) {
         if (note.getIsPublic() == null) {
             note.setIsPublic(true);
@@ -48,21 +46,21 @@ public class NoteController {
         return "redirect:/notes";
     }
 
-    @GetMapping("/notes/{id}")
+    @GetMapping("/{id}")
     public String noteDetail(@PathVariable Long id, Model model) {
         Note note = noteService.findNote(id);
         model.addAttribute("note", note);
         return "noteDetail";
     }
 
-    @GetMapping("notes/{id}/update")
+    @GetMapping("/{id}/update")
     public String updateForm(@PathVariable Long id, Model model) {
         Note note = noteService.findNote(id);
         model.addAttribute("note", note);
         return "noteUpdateForm";
     }
 
-    @PostMapping("notes/{id}/update")
+    @PostMapping("/{id}/update")
     public String update(@PathVariable Long id, @ModelAttribute NoteDTO noteDTO) {
         System.out.println(noteDTO);
         Note note = Note.toNote(noteDTO);
