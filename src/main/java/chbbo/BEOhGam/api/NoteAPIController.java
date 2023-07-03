@@ -4,10 +4,7 @@ import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.dto.NoteDTO;
 import chbbo.BEOhGam.service.NoteService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,5 +25,12 @@ public class NoteAPIController {
             noteDTOList.add(NoteDTO.toNoteDTO(note));
         }
         return noteDTOList;
+    }
+
+    @GetMapping("/{id}")
+    @ResponseBody
+    public NoteDTO noteFind(@PathVariable Long id) {
+        Note note = noteService.findNote(id);
+        return NoteDTO.toNoteDTO(note);
     }
 }
