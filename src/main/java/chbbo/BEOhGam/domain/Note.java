@@ -1,11 +1,14 @@
 package chbbo.BEOhGam.domain;
 
+import chbbo.BEOhGam.dto.NoteDTO;
+import chbbo.BEOhGam.dto.TextDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,4 +40,20 @@ public class Note {
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "commentId")
 //    private Comment comments;
+
+    public static Note toNote(NoteDTO noteDTO) {
+        Note note = new Note();
+        note.setId(noteDTO.getId());
+        note.setIsPublic(noteDTO.getIsPublic());
+        note.setLikes(noteDTO.getLikes());
+        note.setViews(noteDTO.getViews());
+        note.setUploadAt(noteDTO.getUploadAt());
+        note.setUpdateAt(noteDTO.getUpdateAt());
+        List<Text> textList = new ArrayList<>();
+        for (TextDTO textDTO : noteDTO.getText()) {
+            textList.add(Text.toText(textDTO));
+        }
+        note.setText(textList);
+        return note;
+    }
 }

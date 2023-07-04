@@ -11,17 +11,11 @@
     <table>
         <tr>
             <th>노트 아이디</th>
-<!--            <th>첫 번째 감사</th>-->
-<!--            <th>두 번째 감사</th>-->
-<!--            <th>세 번째 감사</th>-->
             <th>업로드 날짜</th>
         </tr>
         <tr th:each="note: ${notes}" style="text-align: center">
-            <td th:text="${note.id}"></td>
-<!--            <td th:each="text: ${note.getText()}">-->
-<!--                <span th:text="${text.content}"></span>-->
-<!--            </td>-->
-            <td th:text="*{#temporals.format(note.uploadAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td><a th:href="@{|/notes/${note.id}|}" th:text="${note.id}"></a></td>
+            <td th:text="*{#temporals.format(note.uploadAt, 'yyyy년 MM월 dd일의 노트')}"></td>
         </tr>
     </table>
 </div>
