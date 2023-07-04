@@ -19,6 +19,7 @@ public class Text {
     @Column
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "noteId")
     private Note note;
 
     public static Text toText(TextDTO textDTO) {
