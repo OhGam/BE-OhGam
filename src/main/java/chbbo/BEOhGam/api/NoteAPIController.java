@@ -19,6 +19,7 @@ public class NoteAPIController {
 
     private final NoteService noteService;
 
+    // 모든 감사 노트 목록 조회하는 api
     @GetMapping("/list")
     @ResponseBody
     public List<NoteDTO> noteList() {
@@ -30,6 +31,7 @@ public class NoteAPIController {
         return noteDTOList;
     }
 
+    // 노트 id로 감사 노트 조회하는 api
     @GetMapping("/{id}")
     @ResponseBody
     public NoteDTO noteFind(@PathVariable Long id) {
@@ -37,6 +39,7 @@ public class NoteAPIController {
         return NoteDTO.toNoteDTO(note);
     }
 
+    // 연, 월, 일을 받아 그 날짜에 적힌 노트를 조회하는 api
     @GetMapping("/date/{year}-{month}-{day}")
     @ResponseBody
     public List<NoteDTO> noteFindByDate(@PathVariable int year, @PathVariable int month, @PathVariable int day) {

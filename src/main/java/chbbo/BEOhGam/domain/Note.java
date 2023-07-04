@@ -21,7 +21,7 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private Boolean isPublic;
+    private Boolean isPublic;  // true면 공개, false면 비공개
     @OneToMany(cascade = CascadeType.ALL)
     private List<Text> text;
     @Column
