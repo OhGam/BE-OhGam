@@ -34,9 +34,9 @@ public class Note {
     @UpdateTimestamp  // 수정 시간
     @Column(insertable = false)  // 첫 입력 시 관여 X
     private LocalDateTime updateAt;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "memberId")
-//    private Member member;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberId")
+    private Member member;
 //    @OneToMany(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "commentId")
 //    private Comment comments;
