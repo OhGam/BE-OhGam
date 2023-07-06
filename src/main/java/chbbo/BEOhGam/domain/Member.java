@@ -36,6 +36,6 @@ public class Member {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private String role;
+    private Role role;
 
 }
