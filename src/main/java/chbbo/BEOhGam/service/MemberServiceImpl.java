@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -57,5 +54,16 @@ public class MemberServiceImpl implements MemberService{
         }
 
         return validatorResult;
+    }
+
+    @Override
+    public Member findByUserId(String userId) {
+        Optional<Member> foundMember = memberRepository.findByUserId(userId);
+        if (foundMember.isPresent()) {
+            return foundMember.get();
+        } else {
+            System.out.println("해당 회원이 존재하지 않습니다.");
+            return  null;
+        }
     }
 }

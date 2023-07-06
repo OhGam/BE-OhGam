@@ -5,6 +5,7 @@ import chbbo.BEOhGam.repository.NoteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class NoteServiceImpl implements NoteService {
 
-    NoteRepository noteRepository;
+    private final NoteRepository noteRepository;
 
     @Override
     public void save(Note note) {
@@ -21,7 +22,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Note findNote(Long id) {
-        Optional<Note> foundNote = noteRepository.findById(id);
+        Optional<Note> foundNote = noteRepository.findNote(id);
 
         if (foundNote.isPresent()) {
             return foundNote.get();
@@ -32,7 +33,20 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<Note> findAll() {
-        return noteRepository.findAll();
+    public List<Note> findAllNote() {
+        Optional<List<Note>> findNotes = noteRepository.findAllNote();
+
+        if (findNotes.isPresent()) {
+            return findNotes.get();
+        } else {
+            System.out.println("노트가 존재하지 않습니다.");
+            return null;
+        }
+
+    }
+
+    @Override
+    public List<Note> findAllByUploadAt(LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        return noteRepository.findAllByUploadAtBetween(minLocalDateTime, maxLocalDateTime);
     }
 }

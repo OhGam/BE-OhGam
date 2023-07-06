@@ -1,5 +1,6 @@
 package chbbo.BEOhGam.domain;
 
+import chbbo.BEOhGam.dto.TextDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,5 +19,13 @@ public class Text {
     @Column
     private String content;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "noteId")
     private Note note;
+
+    public static Text toText(TextDTO textDTO) {
+        Text text = new Text();
+        text.setId(textDTO.getId());
+        text.setContent(textDTO.getContent());
+        return text;
+    }
 }

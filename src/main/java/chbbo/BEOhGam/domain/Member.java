@@ -12,7 +12,6 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "db_member")
 public class Member {
 
     @Id
