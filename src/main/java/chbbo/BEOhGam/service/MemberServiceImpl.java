@@ -20,7 +20,14 @@ public class MemberServiceImpl implements MemberService{
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Long join(MemberDTO memberDTO) {
+
+        memberRepository.findByUserId(memberDTO.getUserId()).ifPresent(
+                a -> {
+                    throw new DuplicateFormatFlagsException("이미 존재하는 아이디입니다.");
+                }
+        );
 
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
 
