@@ -1,5 +1,6 @@
 package chbbo.BEOhGam.service;
 
+import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.dto.MemberDTO;
 import org.springframework.validation.Errors;
 
@@ -17,4 +18,6 @@ public interface MemberService {
     Long join(MemberDTO memberDTO);
 
     Long createNickname(MemberDTO memberDTO);
+
+    Member findByUserId(String userId);
 }
