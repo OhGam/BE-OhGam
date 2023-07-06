@@ -66,4 +66,10 @@ public class MemberServiceImpl implements MemberService{
             return  null;
         }
     }
+
+    @Override
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
+
 }
