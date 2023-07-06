@@ -34,4 +34,8 @@ public class Member {
     @Column
     private String nickname;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private String role;
+
 }
