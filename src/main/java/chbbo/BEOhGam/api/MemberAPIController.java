@@ -32,7 +32,6 @@ public class MemberAPIController {
     }
 
     @PostMapping("/new")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MessageDTO> join (@Valid @RequestBody MemberDTO memberDTO) {
         memberService.join(memberDTO);
         MessageDTO message = new MessageDTO();
