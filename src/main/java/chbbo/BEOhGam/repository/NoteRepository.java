@@ -4,6 +4,7 @@ import chbbo.BEOhGam.domain.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,4 +24,10 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     @Query("SELECT distinct n from Note n join FETCH n.text where n.uploadAt between :minLocalDateTime and :maxLocalDateTime")
     List<Note> findAllByUploadAtBetween(@Param("minLocalDateTime") LocalDateTime minLocalDateTime,
                                         @Param("maxLocalDateTime") LocalDateTime maxLocalDateTime);
+
+    @Query("select distinct n FROM Note n join FETCH n.text where n.member.userId = :userId " +
+            "and n.uploadAt between :minLocalDateTime and :maxLocalDateTime")
+    List <Note> findAllByUserIdAndUploadAtBetween(@Param("userId") String userId,
+                                                  @Param("minLocalDateTime") LocalDateTime minLocalDateTime,
+                                                  @Param("maxLocalDateTime") LocalDateTime maxLocalDateTime);
 }

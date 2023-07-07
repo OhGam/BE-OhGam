@@ -54,8 +54,6 @@ public class NoteAPIController {
     // 회원 로그인 아이디를 받아 감사 노트를 작성하는 api
     @PostMapping("/write")
     public ResponseEntity<NoteDTO> write(@RequestParam String userId, @RequestBody NoteDTO noteDTO) {
-        System.out.println(userId);
-        System.out.println(noteDTO);
         noteDTO.setLikes(0);
         noteDTO.setViews(0);
         Note note = Note.toNote(noteDTO);
