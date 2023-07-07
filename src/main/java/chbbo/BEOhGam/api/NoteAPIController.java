@@ -38,10 +38,24 @@ public class NoteAPIController {
     }
 
     // 연, 월, 일을 받아 그 날짜에 적힌 노트를 조회하는 api
-    @GetMapping("/find")
+    @GetMapping("/findByDate")
     public ResponseEntity<List<NoteDTO>> findByDate(@RequestParam int year, @RequestParam int month, @RequestParam int day) {
         List<Note> notes = noteService.findAllByUploadAt(LocalDate.of(year, month, day).atStartOfDay(),
                 LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        if (notes.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<NoteDTO> noteDTOList = new ArrayList<>();
+        for (Note note : notes) {
+            noteDTOList.add(NoteDTO.toNoteDTO(note));
+        }
+        return ResponseEntity.ok().body(noteDTOList);
+    }
+
+    // 회원 로그인 아이디로 그 회원이 적은 모든 노트 조회 api
+    @GetMapping("/findByUserId")
+    public ResponseEntity<List<NoteDTO>> findByUserId(@RequestParam String userId) {
+        List<Note> notes = noteService.findAllByUserId(userId);
         if (notes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
