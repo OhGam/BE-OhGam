@@ -129,6 +129,7 @@ public class NoteAPIController {
             text.add(Text.toText(textDTO));
         }
         note.setText(text);
+        note.setUpdateAt(LocalDateTime.now());
         noteService.save(note);
         noteDTO = NoteDTO.toNoteDTO(note);
         return ResponseEntity.ok().body(noteDTO);

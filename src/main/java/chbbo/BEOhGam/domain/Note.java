@@ -4,7 +4,6 @@ import chbbo.BEOhGam.dto.NoteDTO;
 import chbbo.BEOhGam.dto.TextDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +30,6 @@ public class Note {
     @CreationTimestamp  // 작성 될 때 자동으로 날짜 입력
     @Column(updatable = false)  // 업데이트시 관여 X
     private LocalDateTime uploadAt;
-    @UpdateTimestamp  // 수정 시간
     @Column(insertable = false)  // 첫 입력 시 관여 X
     private LocalDateTime updateAt;
     @ManyToOne(fetch = FetchType.LAZY)
