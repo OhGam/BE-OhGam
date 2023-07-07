@@ -1,7 +1,9 @@
 package chbbo.BEOhGam.api;
 
 import chbbo.BEOhGam.domain.Note;
+import chbbo.BEOhGam.domain.Text;
 import chbbo.BEOhGam.dto.NoteDTO;
+import chbbo.BEOhGam.dto.TextDTO;
 import chbbo.BEOhGam.service.MemberService;
 import chbbo.BEOhGam.service.NoteService;
 import lombok.AllArgsConstructor;
@@ -59,6 +61,25 @@ public class NoteAPIController {
         Note note = Note.toNote(noteDTO);
         note.setMember(memberService.findByUserId(userId));
         noteService.save(note);
+        return ResponseEntity.ok().body(noteDTO);
+    }
+    
+
+    // 수정 api!
+    // 회원 로그인 아이디와 날짜를 받아 감사 노트를 작성하는 api
+    @PostMapping("/edit")
+    public ResponseEntity<NoteDTO> edit(@RequestParam String userId, @RequestParam int year, @RequestParam int month,
+                                        @RequestParam int day, @RequestBody NoteDTO noteDTO) {
+        Note note = noteService.findAllByUserIdAndUploadAt(userId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
+        note.setIsPublic(noteDTO.getIsPublic());
+        List<Text> text = new ArrayList<>();
+        for (TextDTO textDTO : noteDTO.getText()) {
+            text.add(Text.toText(textDTO));
+        }
+        note.setText(text);
+        noteService.save(note);
+        noteDTO = NoteDTO.toNoteDTO(note);
         return ResponseEntity.ok().body(noteDTO);
     }
 }
