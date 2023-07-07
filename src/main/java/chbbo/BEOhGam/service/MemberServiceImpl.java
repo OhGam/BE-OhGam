@@ -81,4 +81,9 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findAll();
     }
 
+    @Override
+    public Boolean checkUserIdDuplicate(String userId) {
+        return memberRepository.existsByUserId(userId);
+    }
+
 }

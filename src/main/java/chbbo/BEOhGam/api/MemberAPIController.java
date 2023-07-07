@@ -41,6 +41,9 @@ public class MemberAPIController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-
+    @GetMapping("/{userId}/exists")
+    public ResponseEntity<Boolean> checkUserIdDuplicate(@PathVariable String userId) {
+        return ResponseEntity.ok(memberService.checkUserIdDuplicate(userId));
+    }
 
 }

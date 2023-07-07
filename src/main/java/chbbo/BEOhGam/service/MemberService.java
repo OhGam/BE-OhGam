@@ -18,4 +18,6 @@ public interface MemberService {
     List<Member> findAll();
 
     Member findByUserId(String userId);
+
+    Boolean checkUserIdDuplicate(String userId);
 }
