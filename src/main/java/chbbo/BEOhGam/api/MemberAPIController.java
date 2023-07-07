@@ -57,6 +57,15 @@ public class MemberAPIController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    @PostMapping("/login?error=true")
+    public ResponseEntity<MessageDTO> loginError(@Valid @RequestBody MemberDTO memberDTO) {
+        MessageDTO message = new MessageDTO();
+        message.setMessage("401");
+        message.setData(memberDTO);
+
+        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+    }
+
     @GetMapping("/logout/success")
     public ResponseEntity<MessageDTO> logoutSuccess(@Valid @RequestBody MemberDTO memberDTO) {
         MessageDTO message = new MessageDTO();
