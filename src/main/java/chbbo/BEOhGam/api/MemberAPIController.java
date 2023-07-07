@@ -6,8 +6,10 @@ import chbbo.BEOhGam.dto.MessageDTO;
 import chbbo.BEOhGam.service.MemberService;
 import chbbo.BEOhGam.validator.CheckUserIdValidator;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,6 +46,24 @@ public class MemberAPIController {
     @GetMapping("/{userId}/exists")
     public ResponseEntity<Boolean> checkUserIdDuplicate(@PathVariable String userId) {
         return ResponseEntity.ok(memberService.checkUserIdDuplicate(userId));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<MessageDTO> loginSuccess(@Valid @RequestBody MemberDTO memberDTO) {
+        MessageDTO message = new MessageDTO();
+        message.setMessage("200");
+        message.setData(memberDTO);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout/success")
+    public ResponseEntity<MessageDTO> logoutSuccess(@Valid @RequestBody MemberDTO memberDTO) {
+        MessageDTO message = new MessageDTO();
+        message.setMessage("200");
+        message.setData(memberDTO);
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 }
