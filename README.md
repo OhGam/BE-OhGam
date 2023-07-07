@@ -58,7 +58,7 @@
   ```
   - url
   ```
-  /api/notes/findByDate?userId=test&startYear=2023&startMonth=7&startDay=5&endYear=2023&endMonth=7&endDay=7 (숫자는 예시임)
+  /api/notes/findByUserIdAndDate?userId=test&startYear=2023&startMonth=7&startDay=5&endYear=2023&endMonth=7&endDay=7 (숫자는 예시임)
   ```
   - HTTP Header: x
   - HTTP body: x
