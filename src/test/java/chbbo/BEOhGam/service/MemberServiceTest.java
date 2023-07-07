@@ -14,13 +14,15 @@ public class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
+    static Long i = 200L;
 
     @Test
     @Transactional
     void findByUserIdTest() {
         // given
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setUserId("test");
+        memberDTO.setUserId("test" + i);
+        i++;
         memberDTO.setPassword("test1234");
         memberDTO.setNickname("testtest");
         memberDTO.setUsername("테스트");
@@ -28,10 +30,10 @@ public class MemberServiceTest {
 
         // when
         memberService.join(memberDTO);
-        Member foundMember = memberService.findByUserId("test");
+        Member foundMember = memberService.findByUserId(memberDTO.getUserId());
 
         // then
         assertThat(foundMember).isNotNull();
-        assertThat(foundMember.getPhone()).isSameAs("010-0000-0000");
+        assertThat(foundMember.getUsername()).isEqualTo("테스트");
     }
 }

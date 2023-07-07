@@ -18,4 +18,8 @@ public interface NoteService {
 
     // 두 시간대 사이에 적힌 모든 노트 찾기
     List<Note> findAllByUploadAt(LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
+
+    List<Note> findAllByUserIdAndUploadAt(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
+
+    List<Note> findAllByUserId(String userId);
 }

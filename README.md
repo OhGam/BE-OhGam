@@ -1,31 +1,130 @@
-# OhGam - 오늘의 감사
+# 😇 OhGam - 오늘의 감사
 
----
+오늘의 감사한 점을 기록하는 앱  
 
-하루의 감사한 점을 기록하는 앱
+--- 
 
-## 기능 목록
+## 📕 BE API 사용법
 
-### 회원 기능
-- 회원 가입
-  - 아이디, 비밀번호, 이름, 전화번호
-  - 소셜로그인 기능 추가
-  - 가입 후 닉네임 설정
-- 로그인/로그아웃
-- 회원 상세 정보
-  - 정보 수정
-  - 회원 탈퇴
+### 🙍‍ Member 관련
 
-### 감사노트 기능
-- 로그인 해야 작성 가능
-- 노트 작성
-  - 작성 후 수정
-  - 내용, 업로드 날짜, 수정 날짜
-  - 좋아요, 댓글, 조회수
-  - 이미지 삽입
+### 🗒️ Note 관련
 
-### 둘러보기
-- 로그인 안해도 볼 수 있게
-- 좋아요 순, 조회수 순, 최신 순 정렬 기능?
+#### 1. 조회 &nbsp; 🔍
 
----
+- 모든 회원들이 작성한 모든 감사 노트 조회
+  - HTTP method
+  ```
+  GET
+  ```
+  - url 
+  ```
+  /api/notes/findall
+  ```
+  - HTTP Header: x
+  - HTTP body: x
+
+
+- 시작 날짜, 마지막 날짜를 쿼리문으로 받아 그 기간에 적힌 노트 조회
+  - HTTP method
+  ```
+  GET
+  ```
+  - url
+  ```
+  /api/notes/findByDate?startYear=2023&startMonth=7&startDay=5&endYear=2023&endMonth=7&endDay=7 (숫자는 예시임)
+  ```
+  - HTTP Header: x
+  - HTTP body: x
+  
+
+- 회원 로그인 아이디로 그 회원이 적은 모든 노트를 조회
+  - HTTP method
+  ```
+  GET
+  ```
+  - url
+  ```
+  /api/notes/findByUserId?userId=test (test 대신 로그인 아이디, ""로 감싸줄 필요 없음)
+  ```
+  - HTTP Header: x
+  - HTTP body: x
+
+
+- 회원 로그인 아이디 및 시작 날짜, 마지막 날짜를 쿼리문으로 받아 그 기간에 그 회원이 적은 노트 조회
+  - HTTP method
+  ```
+  GET
+  ```
+  - url
+  ```
+  /api/notes/findByUserIdAndDate?userId=test&startYear=2023&startMonth=7&startDay=5&endYear=2023&endMonth=7&endDay=7 (숫자는 예시임)
+  ```
+  - HTTP Header: x
+  - HTTP body: x
+
+#### 2. 작성 &nbsp; ✏️
+
+- 회원 로그인 아이디를 받아 감사노트 작성
+  - HTTP method
+  ```
+  POST
+  ```
+  - url
+  ```
+  /api/notes/write?userId=test
+  ```
+  - HTTP Header
+  ```
+  Content-Type: application/json
+  ```
+  - HTTP body:
+  ```
+  {  
+  "isPublic": false,  
+  "text": [  
+  {"content": "testtest1"},  
+  {"content": "testtest2"},  
+  {"content": "testtest3"}  
+  ]  
+  } (예시)
+  ```
+
+
+#### 3. 수정 &nbsp; 🔨
+
+- 회원 로그인 아이디와 날짜를 받아 감사노트 수정
+  - HTTP method
+  ```
+  POST
+  ```
+  - url
+  ```
+  /api/notes/edit?userId=test&year=2023&month=7&day=7
+  ```
+  - HTTP Header
+  ```
+  Content-Type: application/json
+  ```
+  - HTTP body
+  ```
+  {  
+  "isPublic": false,  
+  "text": [  
+  {"content": "testtest1"},  
+  {"content": "testtest2"},  
+  {"content": "testtest3"}  
+  ]  
+  }
+  ```
+
+
+#### 응답 메시지
+
+- 조회
+  - 노트가 존재할 때: 200 OK와 함께 note 관련 정보
+  - 노트가 존재하지 않을 때: 204 No Content
+- 작성, 수정
+  - 200 OK와 함께 작성 내용
+  <img width="571" alt="image" src="https://github.com/OhGam/BE-OhGam/assets/101378867/cad5bbbf-7c7a-495a-bbb9-71a9cac44b85">
+
