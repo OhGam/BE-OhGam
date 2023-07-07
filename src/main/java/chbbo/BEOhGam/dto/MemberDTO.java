@@ -25,11 +25,11 @@ public class MemberDTO {
     public static MemberDTO toMemberDTO(Member member) {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setUserId(member.getUserId());
-        memberDTO.setPassword(memberDTO.getPassword());
-        memberDTO.setUsername(memberDTO.getUsername());
+        memberDTO.setPassword(member.getPassword());
+        memberDTO.setUsername(member.getUsername());
         memberDTO.setPhone(member.getPhone());
         memberDTO.setNickname(member.getNickname());
-        memberDTO.setRole(ROLE_USER);
+        memberDTO.setRole(member.getRole());
 
         return memberDTO;
     }

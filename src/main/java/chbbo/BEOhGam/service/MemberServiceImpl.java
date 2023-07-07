@@ -1,6 +1,7 @@
 package chbbo.BEOhGam.service;
 
 import chbbo.BEOhGam.domain.Member;
+import chbbo.BEOhGam.domain.Role;
 import chbbo.BEOhGam.dto.MemberDTO;
 import chbbo.BEOhGam.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class MemberServiceImpl implements MemberService{
                 .password(memberDTO.getPassword())
                 .username(memberDTO.getUsername())
                 .phone(memberDTO.getPhone())
+                .role(Role.ROLE_USER)
                 .build();
 
         return memberRepository.save(member).getId();
