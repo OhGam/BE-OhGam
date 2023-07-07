@@ -117,3 +117,14 @@
   ]  
   }
   ```
+
+
+#### 응답 메시지
+
+- 조회
+  - 노트가 존재할 때: 200 OK와 함께 note 관련 정보
+  - 노트가 존재하지 않을 때: 204 No Content
+- 작성, 수정
+  - 200 OK와 함께 작성 내용
+  <img width="571" alt="image" src="https://github.com/OhGam/BE-OhGam/assets/101378867/cad5bbbf-7c7a-495a-bbb9-71a9cac44b85">
+
