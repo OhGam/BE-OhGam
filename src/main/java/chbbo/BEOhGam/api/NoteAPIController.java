@@ -26,8 +26,23 @@ public class NoteAPIController {
 
 
     // 조회 api!
+    // 조회한 회원 로그인 아이디 와 작성자 회원 로그인 아이디, 노트의 작성 날짜를 받아 특정 노트를 조회하는 api
+    // 만약 조회한 회원과 작성 회원 로그인 아이디가 다르다면 조회수 증가
+    @GetMapping("/findNote")
+    public ResponseEntity<NoteDTO> findNote(@RequestParam String searchUserId, @RequestParam String noteUserId,
+                                            @RequestParam int year, @RequestParam int month, @RequestParam int day) {
+        Note note = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
+        if (!(searchUserId.equals(noteUserId))) {
+            note.setLikes(note.getLikes() + 1);
+            noteService.save(note);
+        }
+        NoteDTO noteDTO = NoteDTO.toNoteDTO(note);
+        return ResponseEntity.ok(noteDTO);
+    }
+
     // 모든 감사 노트 목록 조회하는 api
-    @GetMapping("/findall")
+    @GetMapping("/findAll")
     public ResponseEntity<List<NoteDTO>> findAll() {
         List<Note> notes = noteService.findAllNote();
         List<NoteDTO> noteDTOList = new ArrayList<>();
