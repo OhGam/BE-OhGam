@@ -81,4 +81,10 @@ public class MemberController {
         return "loginUser";
     }
 
+    @GetMapping("/logout/success")
+    public String logoutUser() {
+
+        return "logoutUser";
+    }
+
 }

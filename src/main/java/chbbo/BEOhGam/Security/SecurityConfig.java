@@ -50,7 +50,7 @@ public class SecurityConfig {
 
                 .and()
                 .logout()
-                .logoutSuccessUrl("/?logout=true")
+                .logoutSuccessUrl("/logout/success")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 
