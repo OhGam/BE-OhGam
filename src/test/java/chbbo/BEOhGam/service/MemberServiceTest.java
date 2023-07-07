@@ -14,13 +14,15 @@ public class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
+    static Long i = 2L;
 
     @Test
     @Transactional
     void findByUserIdTest() {
         // given
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setUserId("test");
+        memberDTO.setUserId("test" + i);
+        i++;
         memberDTO.setPassword("test1234");
         memberDTO.setNickname("testtest");
         memberDTO.setUsername("테스트");
@@ -32,6 +34,6 @@ public class MemberServiceTest {
 
         // then
         assertThat(foundMember).isNotNull();
-        assertThat(foundMember.getPhone()).isSameAs("010-0000-0000");
+        assertThat(foundMember.getUsername()).isEqualTo("테스트");
     }
 }
