@@ -66,6 +66,23 @@ public class NoteAPIController {
         return ResponseEntity.ok().body(noteDTOList);
     }
 
+    // 회원 로그인 아이디와 날짜로 적은 노트 조회 api
+    @GetMapping("/findByUserIdAndDate")
+    public ResponseEntity<List<NoteDTO>> findByUserIdAndDate(@RequestParam String userId, @RequestParam int year,
+                                                             @RequestParam int month, @RequestParam int day) {
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        if (notes.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        List<NoteDTO> noteDTOList = new ArrayList<>();
+        for (Note note : notes) {
+            noteDTOList.add(NoteDTO.toNoteDTO(note));
+        }
+        return ResponseEntity.ok().body(noteDTOList);
+
+    }
+
     // 등록 api!
     // 회원 로그인 아이디를 받아 감사 노트를 작성하는 api
     @PostMapping("/write")
