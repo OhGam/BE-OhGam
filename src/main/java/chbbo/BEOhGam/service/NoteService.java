@@ -20,4 +20,6 @@ public interface NoteService {
     List<Note> findAllByUploadAt(LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
 
     List<Note> findAllByUserIdAndUploadAt(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
+
+    List<Note> findAllByUserId(String userId);
 }

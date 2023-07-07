@@ -55,4 +55,9 @@ public class NoteServiceImpl implements NoteService {
                                                  LocalDateTime maxLocalDateTime) {
         return noteRepository.findAllByUserIdAndUploadAtBetween(userId, minLocalDateTime, maxLocalDateTime);
     }
+
+    @Override
+    public List<Note> findAllByUserId(String userId) {
+        return noteRepository.findAllByUserID(userId);
+    }
 }

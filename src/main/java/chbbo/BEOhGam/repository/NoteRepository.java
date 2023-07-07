@@ -25,9 +25,14 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     List<Note> findAllByUploadAtBetween(@Param("minLocalDateTime") LocalDateTime minLocalDateTime,
                                         @Param("maxLocalDateTime") LocalDateTime maxLocalDateTime);
 
+    // userId와 날짜로 노트들을 가져오는 메서드
     @Query("select distinct n FROM Note n join FETCH n.text where n.member.userId = :userId " +
             "and n.uploadAt between :minLocalDateTime and :maxLocalDateTime")
     List <Note> findAllByUserIdAndUploadAtBetween(@Param("userId") String userId,
                                                   @Param("minLocalDateTime") LocalDateTime minLocalDateTime,
                                                   @Param("maxLocalDateTime") LocalDateTime maxLocalDateTime);
+
+    // userId로 노트들을 가져오는 메서드
+    @Query("select distinct n From Note n join FETCH n.text where n.member.userId = :userId")
+    List <Note> findAllByUserID(@Param("userId") String userId);
 }
