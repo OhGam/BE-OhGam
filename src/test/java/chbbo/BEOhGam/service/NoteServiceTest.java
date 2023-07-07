@@ -24,7 +24,8 @@ public class NoteServiceTest {
     NoteService noteService;
     @Autowired
     MemberService memberService;
-    static Long i = 1L;
+    static Long i = 100L;
+    static Long j = 300L;
 
     @Test
     @Transactional
@@ -123,8 +124,8 @@ public class NoteServiceTest {
     void findAllByUserIdTest() {
         // given
         MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setUserId("testtest" + i);
-        i++;
+        memberDTO.setUserId("testtesttest" + j);
+        j++;
         memberDTO.setPassword("test1234");
         memberDTO.setNickname("testtest");
         memberDTO.setUsername("테스트");

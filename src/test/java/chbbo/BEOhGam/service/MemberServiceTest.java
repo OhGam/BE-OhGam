@@ -14,7 +14,7 @@ public class MemberServiceTest {
 
     @Autowired
     MemberService memberService;
-    static Long i = 2L;
+    static Long i = 200L;
 
     @Test
     @Transactional
@@ -30,7 +30,7 @@ public class MemberServiceTest {
 
         // when
         memberService.join(memberDTO);
-        Member foundMember = memberService.findByUserId("test");
+        Member foundMember = memberService.findByUserId(memberDTO.getUserId());
 
         // then
         assertThat(foundMember).isNotNull();
