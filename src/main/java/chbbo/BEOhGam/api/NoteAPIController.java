@@ -96,6 +96,7 @@ public class NoteAPIController {
         Note note = Note.toNote(noteDTO);
         note.setMember(memberService.findByUserId(userId));
         noteService.save(note);
+        noteDTO = NoteDTO.toNoteDTO(note);
         return ResponseEntity.ok().body(noteDTO);
     }
 
