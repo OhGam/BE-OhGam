@@ -1,7 +1,9 @@
 package chbbo.BEOhGam.service;
 
+import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.domain.Text;
+import chbbo.BEOhGam.dto.MemberDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +22,9 @@ public class NoteServiceTest {
 
     @Autowired
     NoteService noteService;
+    @Autowired
+    MemberService memberService;
+    static Long i = 1L;
 
     @Test
     @Transactional
@@ -73,5 +78,43 @@ public class NoteServiceTest {
 //        List<Note> foundNote = noteService.findAllByUploadAt(LocalDateTime.of(2023, 7, 4, 0, 0), LocalDateTime.of(2023, 7, 5, 0, 0));
         assertThat(note1).isIn(foundNote);
         assertThat(note2).isIn(foundNote);
+    }
+
+    @Test
+    @Transactional
+    void findAllByUserIdAndUploadAtTest() {
+        // given
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUserId("testtest" + i);
+        i++;
+        memberDTO.setPassword("test1234");
+        memberDTO.setNickname("testtest");
+        memberDTO.setUsername("테스트");
+        memberDTO.setPhone("010-0000-0000");
+
+
+        Note note3 = new Note();
+
+
+        Text text3 = new Text();
+        text3.setContent("hi1");
+        List<Text> textList3 = new ArrayList<>();
+        textList3.add(text3);
+        note3.setText(textList3);
+
+        // when
+        memberService.join(memberDTO);
+        Member member = memberService.findByUserId(memberDTO.getUserId());
+        note3.setMember(member);
+        noteService.save(note3);
+
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(memberDTO.getUserId(),
+                LocalDateTime.now().toLocalDate().atStartOfDay(),
+                LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX));
+        System.out.println(notes);
+
+        // then
+        assertThat(note3).isIn(notes);
+        System.out.println(notes);
     }
 }
