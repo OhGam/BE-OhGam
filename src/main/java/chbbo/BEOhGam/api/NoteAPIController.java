@@ -39,9 +39,11 @@ public class NoteAPIController {
 
     // 연, 월, 일을 받아 그 날짜에 적힌 노트를 조회하는 api
     @GetMapping("/findByDate")
-    public ResponseEntity<List<NoteDTO>> findByDate(@RequestParam int year, @RequestParam int month, @RequestParam int day) {
-        List<Note> notes = noteService.findAllByUploadAt(LocalDate.of(year, month, day).atStartOfDay(),
-                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+    public ResponseEntity<List<NoteDTO>> findByDate(@RequestParam int startYear, @RequestParam int startMonth,
+                                                    @RequestParam int startDay, @RequestParam int endYear,
+                                                    @RequestParam int endMonth, @RequestParam int endDay) {
+        List<Note> notes = noteService.findAllByUploadAt(LocalDate.of(startYear, startMonth, startDay).atStartOfDay(),
+                LocalDate.of(endYear, endMonth, endDay).atTime(LocalTime.MAX));
         if (notes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -68,10 +70,12 @@ public class NoteAPIController {
 
     // 회원 로그인 아이디와 날짜로 적은 노트 조회 api
     @GetMapping("/findByUserIdAndDate")
-    public ResponseEntity<List<NoteDTO>> findByUserIdAndDate(@RequestParam String userId, @RequestParam int year,
-                                                             @RequestParam int month, @RequestParam int day) {
-        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId, LocalDate.of(year, month, day).atStartOfDay(),
-                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+    public ResponseEntity<List<NoteDTO>> findByUserIdAndDate(@RequestParam String userId, @RequestParam int startYear,
+                                                             @RequestParam int startMonth, @RequestParam int startDay,
+                                                             @RequestParam int endYear, @RequestParam int endMonth,
+                                                             @RequestParam int endDay) {
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId, LocalDate.of(startYear, startMonth, startDay).atStartOfDay(),
+                LocalDate.of(endYear, endMonth, endDay).atTime(LocalTime.MAX));
         if (notes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
