@@ -29,34 +29,9 @@ public class NoteServiceTest {
 
     @Test
     @Transactional
-    void saveAndFindNoteTest() {
-        // given
-        Note note = new Note();
-        Text text1 = new Text();
-        text1.setContent("hi");
-        Text text2 = new Text();
-        text2.setContent("hello");
-        Text text3 = new Text();
-        text3.setContent("ntmu");
-
-        // when
-        List<Text> text = new ArrayList<>();
-        text.add(text1);
-        text.add(text2);
-        text.add(text3);
-        note.setText(text);
-
-        noteService.save(note);
-        Note foundNote = noteService.findNote(note.getId());
-
-        // then
-        assertThat(foundNote).isSameAs(note);
-        assertThat(foundNote.getText()).isSameAs(note.getText());
-    }
-
-    @Test
-    @Transactional
     void findAllByUploadAtTest() {
+        Member member = memberService.findByUserId("test");
+
         Note note1 = new Note();
         Note note2 = new Note();
 
@@ -72,10 +47,13 @@ public class NoteServiceTest {
         textList2.add(text2);
         note2.setText(textList2);
 
+        note1.setMember(member);
+        note2.setMember(member);
         noteService.save(note1);
         noteService.save(note2);
 
-        List<Note> foundNote = noteService.findAllByUploadAt(LocalDateTime.now().toLocalDate().atStartOfDay(), LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX));
+        List<Note> foundNote = noteService.findAllByUploadAt(LocalDateTime.now().toLocalDate().atStartOfDay(),
+                LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX));
 //        List<Note> foundNote = noteService.findAllByUploadAt(LocalDateTime.of(2023, 7, 4, 0, 0), LocalDateTime.of(2023, 7, 5, 0, 0));
         assertThat(note1).isIn(foundNote);
         assertThat(note2).isIn(foundNote);

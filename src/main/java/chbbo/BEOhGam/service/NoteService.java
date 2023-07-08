@@ -10,9 +10,6 @@ public interface NoteService {
     // Note를 DB에 저장
     void save(Note note);
 
-    // Note를 Note id로 찾기
-    Note findNote(Long id);
-
     // 저장된 모든 Note 찾기
     List<Note> findAllNote();
 

@@ -21,18 +21,6 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public Note findNote(Long id) {
-        Optional<Note> foundNote = noteRepository.findNote(id);
-
-        if (foundNote.isPresent()) {
-            return foundNote.get();
-        } else {
-            System.out.println("해당 노트는 존재하지 않습니다");
-            return null;
-        }
-    }
-
-    @Override
     public List<Note> findAllNote() {
         Optional<List<Note>> findNotes = noteRepository.findAllNote();
 
