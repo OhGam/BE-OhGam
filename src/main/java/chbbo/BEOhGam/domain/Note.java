@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class Note {
         Note note = new Note();
         note.setId(noteDTO.getId());
         note.setIsPublic(noteDTO.getIsPublic());
-        note.setLikeMember(noteDTO.getLikeMember());
+        note.setLikeMember(new HashSet<>(noteDTO.getLikeMember()));
         note.setViews(noteDTO.getViews());
         note.setUploadAt(noteDTO.getUploadAt());
         note.setUpdateAt(noteDTO.getUpdateAt());

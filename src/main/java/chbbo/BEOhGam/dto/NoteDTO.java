@@ -2,6 +2,7 @@ package chbbo.BEOhGam.dto;
 
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.domain.Text;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class NoteDTO {
     private Boolean isPublic;
     private List<TextDTO> text;
     private String userId;
-    private Set<Long> likeMember;
+    private List<Long> likeMember;
     private int views;
     private LocalDateTime uploadAt;
     private LocalDateTime updateAt;
@@ -28,7 +29,7 @@ public class NoteDTO {
         NoteDTO noteDTO = new NoteDTO();
         noteDTO.setId(note.getId());
         noteDTO.setIsPublic(note.getIsPublic());
-        noteDTO.setLikeMember(note.getLikeMember());
+        noteDTO.setLikeMember(new ArrayList<>(note.getLikeMember()));
         noteDTO.setViews(note.getViews());
         noteDTO.setUploadAt(note.getUploadAt());
         noteDTO.setUpdateAt(note.getUpdateAt());

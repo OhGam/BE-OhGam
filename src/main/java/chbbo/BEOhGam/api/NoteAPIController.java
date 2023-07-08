@@ -1,6 +1,5 @@
 package chbbo.BEOhGam.api;
 
-import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.domain.Text;
 import chbbo.BEOhGam.dto.NoteDTO;
@@ -9,13 +8,13 @@ import chbbo.BEOhGam.service.MemberService;
 import chbbo.BEOhGam.service.NoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -33,8 +32,12 @@ public class NoteAPIController {
     @GetMapping("/findNote")
     public ResponseEntity<NoteDTO> findNote(@RequestParam String searchUserId, @RequestParam String noteUserId,
                                             @RequestParam int year, @RequestParam int month, @RequestParam int day) {
-        Note note = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
-                LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        if (notes.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        Note note = notes.get(0);
         if (!(searchUserId.equals(noteUserId))) {
             note.setViews(note.getViews() + 1);
             noteService.save(note);
@@ -91,7 +94,8 @@ public class NoteAPIController {
                                                              @RequestParam int startMonth, @RequestParam int startDay,
                                                              @RequestParam int endYear, @RequestParam int endMonth,
                                                              @RequestParam int endDay) {
-        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId, LocalDate.of(startYear, startMonth, startDay).atStartOfDay(),
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId,
+                LocalDate.of(startYear, startMonth, startDay).atStartOfDay(),
                 LocalDate.of(endYear, endMonth, endDay).atTime(LocalTime.MAX));
         if (notes.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -104,11 +108,31 @@ public class NoteAPIController {
 
     }
 
+    // 좋아요 누른 사람의 아이디 와 누른 노트 작성자 아이디, 날짜를 받아 좋아요누른 Set에 넣어주는 메서드
+    // 이미 좋아요를 누른 사람이라면 좋아요 취소
+    @GetMapping("/like")
+    @Transactional
+    public ResponseEntity<Void> like(@RequestParam String likeUserId, @RequestParam String noteUserId,
+                                     @RequestParam int year, @RequestParam int month, @RequestParam int day) {
+        Note note = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
+        if (note.getLikeMember().contains(likeUserId)) {
+            noteService.removeLikeMemberFromNote(likeUserId, noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                    LocalDate.of(year, month, day).atTime(LocalTime.MAX));return ResponseEntity.ok().build();
+        } else {
+            noteService.addLikeMemberToNote(likeUserId, noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                    LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
     // 등록 api!
     // 회원 로그인 아이디를 받아 감사 노트를 작성하는 api
     @PostMapping("/write")
     public ResponseEntity<NoteDTO> write(@RequestParam String userId, @RequestBody NoteDTO noteDTO) {
-        noteDTO.setLikeMember(new HashSet<>());
+        noteDTO.setLikeMember(new ArrayList<>());
+        noteDTO.getLikeMember().add(0L);
         noteDTO.setViews(0);
         Note note = Note.toNote(noteDTO);
         note.setMember(memberService.findByUserId(userId));

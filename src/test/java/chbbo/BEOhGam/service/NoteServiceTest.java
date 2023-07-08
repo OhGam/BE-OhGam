@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,10 @@ public class NoteServiceTest {
 
         Note note1 = new Note();
         Note note2 = new Note();
+        Set<Long> likeMember = new HashSet<>();
+        likeMember.add(member.getId());
+        note1.setLikeMember(likeMember);
+        note2.setLikeMember(likeMember);
 
         Text text1 = new Text();
         text1.setContent("hi");
@@ -86,6 +91,9 @@ public class NoteServiceTest {
         // when
         memberService.join(memberDTO);
         Member member = memberService.findByUserId(memberDTO.getUserId());
+        Set<Long> likeMember = new HashSet<>();
+        likeMember.add(member.getId());
+        note3.setLikeMember(likeMember);
         note3.setMember(member);
         noteService.save(note3);
 
@@ -138,6 +146,11 @@ public class NoteServiceTest {
         // when
         memberService.join(memberDTO);
         Member member = memberService.findByUserId(memberDTO.getUserId());
+        Set<Long> likeMember = new HashSet<>();
+        likeMember.add(member.getId());
+        note1.setLikeMember(likeMember);
+        note2.setLikeMember(likeMember);
+        note3.setLikeMember(likeMember);
         note1.setMember(member);
         note2.setMember(member);
         note3.setMember(member);
