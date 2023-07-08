@@ -42,7 +42,7 @@ public class NoteAPIController {
     }
 
     // 모든 감사 노트 목록 조회하는 api
-    @GetMapping("/findAll")
+    @GetMapping("/findall")
     public ResponseEntity<List<NoteDTO>> findAll() {
         List<Note> notes = noteService.findAllNote();
         List<NoteDTO> noteDTOList = new ArrayList<>();
