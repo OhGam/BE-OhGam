@@ -33,7 +33,16 @@ public class NoteServiceTest {
     @Test
     @Transactional
     void findAllByUploadAtTest() {
-        Member member = memberService.findByUserId("test");
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUserId("테스트" + k);
+        k++;
+        memberDTO.setPassword("test1234");
+        memberDTO.setNickname("testtest");
+        memberDTO.setUsername("테스트");
+        memberDTO.setPhone("010-0000-0000");
+        memberService.join(memberDTO);
+        Member member = memberService.findByUserId(memberDTO.getUserId());
+
 
         Note note1 = new Note();
         Note note2 = new Note();
@@ -210,7 +219,6 @@ public class NoteServiceTest {
         // given
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setUserId("테스트" + k);
-        k++;
         memberDTO.setPassword("test1234");
         memberDTO.setNickname("testtest");
         memberDTO.setUsername("테스트");
@@ -218,22 +226,43 @@ public class NoteServiceTest {
         memberService.join(memberDTO);
         Member member = memberService.findByUserId(memberDTO.getUserId());
 
-        noteService.addLikeMemberToNote(memberDTO.getUserId(), "test",
-                LocalDate.of(2023, 7, 7).atStartOfDay(),
-                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX));
-        Note addNote = noteService.findAllByUserIdAndUploadAt("test",
-                LocalDate.of(2023, 7, 7).atStartOfDay(),
-                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX)).get(0);
+        Note note1 = new Note();
+
+        Text text1 = new Text();
+        text1.setContent("test1");
+        Text text2 = new Text();
+        text2.setContent("test2");
+        Text text3 = new Text();
+        text3.setContent("test3");
+        List<Text> textList1 = new ArrayList<>();
+        textList1.add(text1);
+        textList1.add(text2);
+        textList1.add(text3);
+        note1.setText(textList1);
+        note1.setIsPublic(false);
+        note1.setMember(member);
+        Set<Long> likeMember = new HashSet<>();
+        likeMember.add(0L);
+        note1.setLikeMember(likeMember);
+
+        noteService.save(note1);
+
+        noteService.addLikeMemberToNote(memberDTO.getUserId(), memberDTO.getUserId(),
+                LocalDate.now().atStartOfDay(),
+                LocalDate.now().atTime(LocalTime.MAX));
+        Note addNote = noteService.findAllByUserIdAndUploadAt(memberDTO.getUserId(),
+                LocalDate.now().atStartOfDay(),
+                LocalDate.now().atTime(LocalTime.MAX)).get(0);
         Set<Long> addLikeMember = addNote.getLikeMember();
         System.out.println(addLikeMember);
         assertThat(member.getId()).isIn(addLikeMember);
 
-        noteService.removeLikeMemberFromNote(memberDTO.getUserId(), "test",
-                LocalDate.of(2023, 7, 7).atStartOfDay(),
-                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX));
-        Note removeNote = noteService.findAllByUserIdAndUploadAt("test",
-                LocalDate.of(2023, 7, 7).atStartOfDay(),
-                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX)).get(0);
+        noteService.removeLikeMemberFromNote(memberDTO.getUserId(), memberDTO.getUserId(),
+                LocalDate.now().atStartOfDay(),
+                LocalDate.now().atTime(LocalTime.MAX));
+        Note removeNote = noteService.findAllByUserIdAndUploadAt(memberDTO.getUserId(),
+                LocalDate.now().atStartOfDay(),
+                LocalDate.now().atTime(LocalTime.MAX)).get(0);
         Set<Long> removeLikeMember = removeNote.getLikeMember();
         System.out.println(removeLikeMember);
         assertThat(member.getId()).isNotIn(removeLikeMember);
