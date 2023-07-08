@@ -193,7 +193,7 @@ public class NoteServiceTest {
 
     @Test
     @Transactional
-    void addLikeMemberToNoteTest() {
+    void addAndRemoveLikeMemberTest() {
         // given
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setUserId("테스트" + k);
@@ -203,15 +203,27 @@ public class NoteServiceTest {
         memberDTO.setUsername("테스트");
         memberDTO.setPhone("010-0000-0000");
         memberService.join(memberDTO);
+        Member member = memberService.findByUserId(memberDTO.getUserId());
 
         noteService.addLikeMemberToNote(memberDTO.getUserId(), "test",
                 LocalDate.of(2023, 7, 7).atStartOfDay(),
                 LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX));
-        Note note = noteService.findAllByUserIdAndUploadAt("test",
+        Note addNote = noteService.findAllByUserIdAndUploadAt("test",
                 LocalDate.of(2023, 7, 7).atStartOfDay(),
                 LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX)).get(0);
-        Set<Long> likeMember = note.getLikeMember();
-        System.out.println(likeMember);
+        Set<Long> addLikeMember = addNote.getLikeMember();
+        System.out.println(addLikeMember);
+        assertThat(member.getId()).isIn(addLikeMember);
+
+        noteService.removeLikeMemberFromNote(memberDTO.getUserId(), "test",
+                LocalDate.of(2023, 7, 7).atStartOfDay(),
+                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX));
+        Note removeNote = noteService.findAllByUserIdAndUploadAt("test",
+                LocalDate.of(2023, 7, 7).atStartOfDay(),
+                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX)).get(0);
+        Set<Long> removeLikeMember = removeNote.getLikeMember();
+        System.out.println(removeLikeMember);
+        assertThat(member.getId()).isNotIn(removeLikeMember);
     }
 
 //    @Test
