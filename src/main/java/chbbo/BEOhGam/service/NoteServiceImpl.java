@@ -1,5 +1,6 @@
 package chbbo.BEOhGam.service;
 
+import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.repository.NoteRepository;
 import lombok.AllArgsConstructor;
@@ -14,22 +15,11 @@ import java.util.Optional;
 public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
+    private final MemberService memberService;
 
     @Override
     public void save(Note note) {
         noteRepository.save(note);
-    }
-
-    @Override
-    public Note findNote(Long id) {
-        Optional<Note> foundNote = noteRepository.findNote(id);
-
-        if (foundNote.isPresent()) {
-            return foundNote.get();
-        } else {
-            System.out.println("해당 노트는 존재하지 않습니다");
-            return null;
-        }
     }
 
     @Override
@@ -59,5 +49,25 @@ public class NoteServiceImpl implements NoteService {
     @Override
     public List<Note> findAllByUserId(String userId) {
         return noteRepository.findAllByUserID(userId);
+    }
+
+    @Override
+    public void deleteNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        Member member = memberService.findByUserId(userId);
+        noteRepository.deleteByMemberAndUploadAtBetween(member, minLocalDateTime, maxLocalDateTime);
+    }
+
+    @Override
+    public void addLikeMemberToNote(String likeUserId, String noteUserId,
+                                    LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        Long memberId = memberService.findByUserId(likeUserId).getId();
+        noteRepository.addLikeMemberToNote(memberId, noteUserId, minLocalDateTime, maxLocalDateTime);
+    }
+
+    @Override
+    public void removeLikeMemberFromNote(String cancleUserId, String noteUserId,
+                                         LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        Long memberId = memberService.findByUserId(cancleUserId).getId();
+        noteRepository.removeLikeMemberFromNote(memberId, noteUserId, minLocalDateTime, maxLocalDateTime);
     }
 }

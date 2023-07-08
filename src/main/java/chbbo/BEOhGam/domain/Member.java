@@ -3,6 +3,7 @@ package chbbo.BEOhGam.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,6 +35,9 @@ public class Member {
     @Column
     private String nickname;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Note> note;
+  
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;

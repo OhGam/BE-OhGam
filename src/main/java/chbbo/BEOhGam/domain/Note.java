@@ -4,12 +4,13 @@ import chbbo.BEOhGam.dto.NoteDTO;
 import chbbo.BEOhGam.dto.TextDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,14 +25,13 @@ public class Note {
     private Boolean isPublic;  // true면 공개, false면 비공개
     @OneToMany(cascade = CascadeType.ALL)
     private List<Text> text;
-    @Column
-    private int likes;
+    @ElementCollection
+    private Set<Long> likeMember;
     @Column
     private int views;
     @CreationTimestamp  // 작성 될 때 자동으로 날짜 입력
     @Column(updatable = false)  // 업데이트시 관여 X
     private LocalDateTime uploadAt;
-    @UpdateTimestamp  // 수정 시간
     @Column(insertable = false)  // 첫 입력 시 관여 X
     private LocalDateTime updateAt;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,7 +45,7 @@ public class Note {
         Note note = new Note();
         note.setId(noteDTO.getId());
         note.setIsPublic(noteDTO.getIsPublic());
-        note.setLikes(noteDTO.getLikes());
+        note.setLikeMember(new HashSet<>(noteDTO.getLikeMember()));
         note.setViews(noteDTO.getViews());
         note.setUploadAt(noteDTO.getUploadAt());
         note.setUpdateAt(noteDTO.getUpdateAt());

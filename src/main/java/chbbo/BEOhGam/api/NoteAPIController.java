@@ -8,6 +8,7 @@ import chbbo.BEOhGam.service.MemberService;
 import chbbo.BEOhGam.service.NoteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -26,6 +27,25 @@ public class NoteAPIController {
 
 
     // 조회 api!
+    // 조회한 회원 로그인 아이디 와 작성자 회원 로그인 아이디, 노트의 작성 날짜를 받아 특정 노트를 조회하는 api
+    // 만약 조회한 회원과 작성 회원 로그인 아이디가 다르다면 조회수 증가
+    @GetMapping("/findNote")
+    public ResponseEntity<NoteDTO> findNote(@RequestParam String searchUserId, @RequestParam String noteUserId,
+                                            @RequestParam int year, @RequestParam int month, @RequestParam int day) {
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        if (notes.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        Note note = notes.get(0);
+        if (!(searchUserId.equals(noteUserId))) {
+            note.setViews(note.getViews() + 1);
+            noteService.save(note);
+        }
+        NoteDTO noteDTO = NoteDTO.toNoteDTO(note);
+        return ResponseEntity.ok(noteDTO);
+    }
+
     // 모든 감사 노트 목록 조회하는 api
     @GetMapping("/findall")
     public ResponseEntity<List<NoteDTO>> findAll() {
@@ -74,7 +94,8 @@ public class NoteAPIController {
                                                              @RequestParam int startMonth, @RequestParam int startDay,
                                                              @RequestParam int endYear, @RequestParam int endMonth,
                                                              @RequestParam int endDay) {
-        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId, LocalDate.of(startYear, startMonth, startDay).atStartOfDay(),
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(userId,
+                LocalDate.of(startYear, startMonth, startDay).atStartOfDay(),
                 LocalDate.of(endYear, endMonth, endDay).atTime(LocalTime.MAX));
         if (notes.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -87,11 +108,31 @@ public class NoteAPIController {
 
     }
 
+    // 좋아요 누른 사람의 아이디 와 누른 노트 작성자 아이디, 날짜를 받아 좋아요누른 Set에 넣어주는 메서드
+    // 이미 좋아요를 누른 사람이라면 좋아요 취소
+    @GetMapping("/like")
+    @Transactional
+    public ResponseEntity<Void> like(@RequestParam String likeUserId, @RequestParam String noteUserId,
+                                     @RequestParam int year, @RequestParam int month, @RequestParam int day) {
+        Note note = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
+        if (note.getLikeMember().contains(likeUserId)) {
+            noteService.removeLikeMemberFromNote(likeUserId, noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                    LocalDate.of(year, month, day).atTime(LocalTime.MAX));return ResponseEntity.ok().build();
+        } else {
+            noteService.addLikeMemberToNote(likeUserId, noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
+                    LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
     // 등록 api!
     // 회원 로그인 아이디를 받아 감사 노트를 작성하는 api
     @PostMapping("/write")
     public ResponseEntity<NoteDTO> write(@RequestParam String userId, @RequestBody NoteDTO noteDTO) {
-        noteDTO.setLikes(0);
+        noteDTO.setLikeMember(new ArrayList<>());
+        noteDTO.getLikeMember().add(0L);
         noteDTO.setViews(0);
         Note note = Note.toNote(noteDTO);
         note.setMember(memberService.findByUserId(userId));
@@ -114,8 +155,20 @@ public class NoteAPIController {
             text.add(Text.toText(textDTO));
         }
         note.setText(text);
+        note.setUpdateAt(LocalDateTime.now());
         noteService.save(note);
         noteDTO = NoteDTO.toNoteDTO(note);
         return ResponseEntity.ok().body(noteDTO);
+    }
+
+
+    // 삭제 api!
+    // 회원 로그인 아이디와 날짜를 받아 노트를 삭제하는 api
+    @GetMapping("/delete")
+    public ResponseEntity<Void> deleteNoteById(@RequestParam String userId, @RequestParam int year,
+                                               @RequestParam int month, @RequestParam int day) {
+        noteService.deleteNote(userId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        return ResponseEntity.ok().build();
     }
 }

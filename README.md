@@ -6,11 +6,27 @@
 
 ## 📕 BE API 사용법
 
+모든 url 앞에는 http://35.175.196.60:8080를 붙여야 합니다.
+
 ### 🙍‍ Member 관련
 
 ### 🗒️ Note 관련
 
 #### 1. 조회 &nbsp; 🔍
+
+- 조회하는 회원 로그인 아이디, 노트 작성한 회원 로그인 아이디, 작성 날짜를 받아 특정 노트 조회
+- 조회 회원과 노트 작성 회원이 다르다면 조회수 증가
+  - HTTP method
+  ```
+  GET
+  ```
+  - url
+  ```
+  /findNote?searchUserId=test1&noteUserId=test2&year=2023&month=7&day=8
+  ```
+  - HTTP Header: x
+  - HTTP body: x  
+
 
 - 모든 회원들이 작성한 모든 감사 노트 조회
   - HTTP method
@@ -118,6 +134,19 @@
   }
   ```
 
+#### 4. 삭제 &nbsp; 🧹
+
+- 회원 로그인 아이디와 날짜를 받아 감사노트 삭제
+  - HTTP method
+  ```
+  GET
+  ```
+  - url
+  ```
+  /api/notes/delete?userId=test&year=2023&month=7&day=7
+  ```
+  - HTTP Header: x
+  - HTTP body: x
 
 #### 응답 메시지
 
@@ -127,4 +156,3 @@
 - 작성, 수정
   - 200 OK와 함께 작성 내용
   <img width="571" alt="image" src="https://github.com/OhGam/BE-OhGam/assets/101378867/cad5bbbf-7c7a-495a-bbb9-71a9cac44b85">
-
