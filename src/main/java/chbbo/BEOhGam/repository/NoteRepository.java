@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +36,7 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     List <Note> findAllByUserID(@Param("userId") String userId);
 
     // userId 및 날짜를 받아 노트를 삭제하는 메서드
+    @Transactional
     void deleteByMemberAndUploadAtBetween(Member member, LocalDateTime minLocalDateTime,
                                           LocalDateTime maxLocalDateTime);
 

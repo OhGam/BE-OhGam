@@ -1,5 +1,6 @@
 package chbbo.BEOhGam.api;
 
+import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.domain.Text;
 import chbbo.BEOhGam.dto.NoteDTO;
@@ -133,5 +134,16 @@ public class NoteAPIController {
         noteService.save(note);
         noteDTO = NoteDTO.toNoteDTO(note);
         return ResponseEntity.ok().body(noteDTO);
+    }
+
+
+    // 삭제 api!
+    // 회원 로그인 아이디와 날짜를 받아 노트를 삭제하는 api
+    @GetMapping("/delete")
+    public ResponseEntity<Void> deleteNoteById(@RequestParam String userId, @RequestParam int year,
+                                               @RequestParam int month, @RequestParam int day) {
+        noteService.deleteNote(userId, LocalDate.of(year, month, day).atStartOfDay(),
+                LocalDate.of(year, month, day).atTime(LocalTime.MAX));
+        return ResponseEntity.ok().build();
     }
 }
