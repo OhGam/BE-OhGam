@@ -1,5 +1,6 @@
 package chbbo.BEOhGam.service;
 
+import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.domain.Note;
 import chbbo.BEOhGam.repository.NoteRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class NoteServiceImpl implements NoteService {
 
     private final NoteRepository noteRepository;
+    private final MemberService memberService;
 
     @Override
     public void save(Note note) {
@@ -51,6 +53,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void deleteNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
-        noteRepository.deleteNote(userId, minLocalDateTime, maxLocalDateTime);
+        Member member = memberService.findByUserId(userId);
+        noteRepository.deleteByMemberAndUploadAtBetween(member, minLocalDateTime, maxLocalDateTime);
     }
 }

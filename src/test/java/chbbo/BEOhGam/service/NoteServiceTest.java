@@ -153,7 +153,43 @@ public class NoteServiceTest {
         assertThat(note2).isIn(foundNotes);
         assertThat(note3).isIn(foundNotes);
     }
-//
+
+    @Test
+    @Transactional
+    void deleteNoteTest() {
+        // given
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUserId("testtesttesttest" + k);
+        k++;
+        memberDTO.setPassword("test1234");
+        memberDTO.setNickname("testtest");
+        memberDTO.setUsername("테스트");
+        memberDTO.setPhone("010-0000-0000");
+
+        Note note1 = new Note();
+
+        Text text1 = new Text();
+        text1.setContent("hi1");
+        List<Text> textList1 = new ArrayList<>();
+        textList1.add(text1);
+        note1.setText(textList1);
+
+        // when
+        memberService.join(memberDTO);
+        Member member = memberService.findByUserId(memberDTO.getUserId());
+        note1.setMember(member);
+        noteService.save(note1);
+
+        noteService.deleteNote(memberDTO.getUserId(), LocalDateTime.now().toLocalDate().atStartOfDay(),
+                LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX));
+
+        List<Note> notes = noteService.findAllByUserIdAndUploadAt(memberDTO.getUserId(),
+                LocalDateTime.now().toLocalDate().atStartOfDay(),
+                LocalDateTime.now().toLocalDate().atTime(LocalTime.MAX));
+//        // then
+        assertThat(note1).isNotIn(notes);
+    }
+
 //    @Test
 //    void test() {
 //        // given
@@ -169,11 +205,11 @@ public class NoteServiceTest {
 //        Note note1 = new Note();
 //
 //        Text text1 = new Text();
-//        text1.setContent("hi1");
+//        text1.setContent("test1");
 //        Text text2 = new Text();
-//        text2.setContent("hi2");
+//        text2.setContent("test2");
 //        Text text3 = new Text();
-//        text3.setContent("hi3");
+//        text3.setContent("test3");
 //        List<Text> textList1 = new ArrayList<>();
 //        textList1.add(text1);
 //        textList1.add(text2);
