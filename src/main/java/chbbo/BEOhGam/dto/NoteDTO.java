@@ -17,6 +17,7 @@ public class NoteDTO {
     private Long id;
     private Boolean isPublic;
     private List<TextDTO> text;
+    private String userId;
     private int likes;
     private int views;
     private LocalDateTime uploadAt;
@@ -30,6 +31,7 @@ public class NoteDTO {
         noteDTO.setViews(note.getViews());
         noteDTO.setUploadAt(note.getUploadAt());
         noteDTO.setUpdateAt(note.getUpdateAt());
+        noteDTO.setUserId(note.getMember().getUserId());
         List<TextDTO> textDTOList = new ArrayList<>();
         for (Text text : note.getText()) {
             textDTOList.add(TextDTO.toTextDTO(text));

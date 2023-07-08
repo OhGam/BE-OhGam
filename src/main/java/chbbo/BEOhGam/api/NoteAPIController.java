@@ -34,7 +34,7 @@ public class NoteAPIController {
         Note note = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
                 LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
         if (!(searchUserId.equals(noteUserId))) {
-            note.setLikes(note.getLikes() + 1);
+            note.setViews(note.getViews() + 1);
             noteService.save(note);
         }
         NoteDTO noteDTO = NoteDTO.toNoteDTO(note);
