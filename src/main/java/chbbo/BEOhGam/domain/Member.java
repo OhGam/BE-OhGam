@@ -13,6 +13,7 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "db_member")
 public class Member {
 
     @Id
@@ -36,4 +37,9 @@ public class Member {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Note> note;
+  
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 }

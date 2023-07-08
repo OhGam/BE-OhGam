@@ -1,6 +1,7 @@
 package chbbo.BEOhGam.service;
 
 import chbbo.BEOhGam.domain.Member;
+import chbbo.BEOhGam.domain.Role;
 import chbbo.BEOhGam.dto.MemberDTO;
 import chbbo.BEOhGam.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,14 @@ public class MemberServiceImpl implements MemberService{
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Long join(MemberDTO memberDTO) {
+
+        memberRepository.findByUserId(memberDTO.getUserId()).ifPresent(
+                a -> {
+                    throw new DuplicateFormatFlagsException("이미 존재하는 아이디입니다.");
+                }
+        );
 
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
 
@@ -29,6 +37,7 @@ public class MemberServiceImpl implements MemberService{
                 .password(memberDTO.getPassword())
                 .username(memberDTO.getUsername())
                 .phone(memberDTO.getPhone())
+                .role(Role.ROLE_USER)
                 .build();
 
         return memberRepository.save(member).getId();
@@ -66,4 +75,15 @@ public class MemberServiceImpl implements MemberService{
             return  null;
         }
     }
+
+    @Override
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
+
+    @Override
+    public Boolean checkUserIdDuplicate(String userId) {
+        return memberRepository.existsByUserId(userId);
+    }
+
 }
