@@ -21,4 +21,7 @@ public interface NoteService {
     List<Note> findAllByUserId(String userId);
 
     void deleteNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
+
+    void addLikeMemberToNote(String userId, LocalDateTime minLocalDateTime,
+                             LocalDateTime maxLocalDateTime);
 }

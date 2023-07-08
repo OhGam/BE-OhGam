@@ -56,4 +56,10 @@ public class NoteServiceImpl implements NoteService {
         Member member = memberService.findByUserId(userId);
         noteRepository.deleteByMemberAndUploadAtBetween(member, minLocalDateTime, maxLocalDateTime);
     }
+
+    @Override
+    public void addLikeMemberToNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        Long memberId = memberService.findByUserId(userId).getId();
+        noteRepository.addLikeMemberToNote(memberId, userId, minLocalDateTime, maxLocalDateTime);
+    }
 }

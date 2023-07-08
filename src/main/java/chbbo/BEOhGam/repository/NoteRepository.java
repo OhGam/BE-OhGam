@@ -2,17 +2,19 @@ package chbbo.BEOhGam.repository;
 
 import chbbo.BEOhGam.domain.Member;
 import chbbo.BEOhGam.domain.Note;
+import chbbo.BEOhGam.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
     // 모든 Note 찾아오는 메서드
@@ -40,4 +42,13 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     void deleteByMemberAndUploadAtBetween(Member member, LocalDateTime minLocalDateTime,
                                           LocalDateTime maxLocalDateTime);
 
+    @Transactional
+    default void addLikeMemberToNote(Long memberId, String userId, LocalDateTime minLocalDateTime,
+                                     LocalDateTime maxLocalDateTime) {
+        Note note = findAllByUserIdAndUploadAtBetween(userId, minLocalDateTime, maxLocalDateTime).get(0);
+        if (note != null) {
+            note.getLikeMember().add(memberId);
+            save(note);
+        }
+    }
 }

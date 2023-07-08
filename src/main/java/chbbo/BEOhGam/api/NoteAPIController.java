@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -107,7 +108,7 @@ public class NoteAPIController {
     // 회원 로그인 아이디를 받아 감사 노트를 작성하는 api
     @PostMapping("/write")
     public ResponseEntity<NoteDTO> write(@RequestParam String userId, @RequestBody NoteDTO noteDTO) {
-        noteDTO.setLikes(0);
+        noteDTO.setLikeMember(new HashSet<>());
         noteDTO.setViews(0);
         Note note = Note.toNote(noteDTO);
         note.setMember(memberService.findByUserId(userId));
