@@ -51,4 +51,14 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
             save(note);
         }
     }
+
+    @Transactional
+    default void removeLikeMemberFromNote(Long memberId, String noteUserId, LocalDateTime minLocalDateTime,
+                                                 LocalDateTime maxLocalDateTime) {
+        Note note = findAllByUserIdAndUploadAtBetween(noteUserId, minLocalDateTime, maxLocalDateTime).get(0);
+        if (note != null) {
+            note.getLikeMember().remove(memberId);
+            save(note);
+        }
+    }
 }

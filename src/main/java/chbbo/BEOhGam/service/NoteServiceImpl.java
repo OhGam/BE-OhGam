@@ -63,4 +63,11 @@ public class NoteServiceImpl implements NoteService {
         Long memberId = memberService.findByUserId(likeUserId).getId();
         noteRepository.addLikeMemberToNote(memberId, noteUserId, minLocalDateTime, maxLocalDateTime);
     }
+
+    @Override
+    public void removeLikeMemberFromNote(String cancleUserId, String noteUserId,
+                                         LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        Long memberId = memberService.findByUserId(cancleUserId).getId();
+        noteRepository.removeLikeMemberFromNote(memberId, noteUserId, minLocalDateTime, maxLocalDateTime);
+    }
 }
