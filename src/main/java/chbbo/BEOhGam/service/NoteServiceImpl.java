@@ -58,8 +58,9 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void addLikeMemberToNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
-        Long memberId = memberService.findByUserId(userId).getId();
-        noteRepository.addLikeMemberToNote(memberId, userId, minLocalDateTime, maxLocalDateTime);
+    public void addLikeMemberToNote(String likeUserId, String noteUserId,
+                                    LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        Long memberId = memberService.findByUserId(likeUserId).getId();
+        noteRepository.addLikeMemberToNote(memberId, noteUserId, minLocalDateTime, maxLocalDateTime);
     }
 }

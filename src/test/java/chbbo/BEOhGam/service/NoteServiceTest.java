@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -190,8 +191,31 @@ public class NoteServiceTest {
         assertThat(note1).isNotIn(notes);
     }
 
-//    @Test
-//    void test() {
+    @Test
+    @Transactional
+    void addLikeMemberToNoteTest() {
+        // given
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setUserId("테스트" + k);
+        k++;
+        memberDTO.setPassword("test1234");
+        memberDTO.setNickname("testtest");
+        memberDTO.setUsername("테스트");
+        memberDTO.setPhone("010-0000-0000");
+        memberService.join(memberDTO);
+
+        noteService.addLikeMemberToNote(memberDTO.getUserId(), "test",
+                LocalDate.of(2023, 7, 7).atStartOfDay(),
+                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX));
+        Note note = noteService.findAllByUserIdAndUploadAt("test",
+                LocalDate.of(2023, 7, 7).atStartOfDay(),
+                LocalDate.of(2023, 7, 7).atTime(LocalTime.MAX)).get(0);
+        Set<Long> likeMember = note.getLikeMember();
+        System.out.println(likeMember);
+    }
+
+    @Test
+    void test() {
 //        // given
 //        MemberDTO memberDTO = new MemberDTO();
 //        memberDTO.setUserId("test");
@@ -219,5 +243,5 @@ public class NoteServiceTest {
 //        note1.setMember(member);
 //
 //        noteService.save(note1);
-//    }
+    }
 }

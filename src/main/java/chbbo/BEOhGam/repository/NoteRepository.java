@@ -43,9 +43,9 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
                                           LocalDateTime maxLocalDateTime);
 
     @Transactional
-    default void addLikeMemberToNote(Long memberId, String userId, LocalDateTime minLocalDateTime,
+    default void addLikeMemberToNote(Long memberId, String noteUserId, LocalDateTime minLocalDateTime,
                                      LocalDateTime maxLocalDateTime) {
-        Note note = findAllByUserIdAndUploadAtBetween(userId, minLocalDateTime, maxLocalDateTime).get(0);
+        Note note = findAllByUserIdAndUploadAtBetween(noteUserId, minLocalDateTime, maxLocalDateTime).get(0);
         if (note != null) {
             note.getLikeMember().add(memberId);
             save(note);

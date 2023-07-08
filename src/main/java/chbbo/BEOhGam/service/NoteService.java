@@ -22,6 +22,6 @@ public interface NoteService {
 
     void deleteNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime);
 
-    void addLikeMemberToNote(String userId, LocalDateTime minLocalDateTime,
+    void addLikeMemberToNote(String likeUserId, String noteUserId, LocalDateTime minLocalDateTime,
                              LocalDateTime maxLocalDateTime);
 }
