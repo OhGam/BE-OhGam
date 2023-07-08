@@ -214,8 +214,8 @@ public class NoteServiceTest {
         System.out.println(likeMember);
     }
 
-    @Test
-    void test() {
+//    @Test
+//    void test() {
 //        // given
 //        MemberDTO memberDTO = new MemberDTO();
 //        memberDTO.setUserId("test");
@@ -243,5 +243,5 @@ public class NoteServiceTest {
 //        note1.setMember(member);
 //
 //        noteService.save(note1);
-    }
+//    }
 }

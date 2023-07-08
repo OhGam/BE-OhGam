@@ -133,3 +133,17 @@
   ]  
   }
   ```
+
+#### 4. 삭제 &nbsp; 🧹
+
+- 회원 로그인 아이디와 날짜를 받아 감사노트 삭제
+  - HTTP method
+  ```
+  GET
+  ```
+  - url
+  ```
+  /api/notes/delete?userId=test&year=2023&month=7&day=7
+  ```
+  - HTTP Header: x
+  - HTTP body: x
