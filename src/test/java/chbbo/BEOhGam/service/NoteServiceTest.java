@@ -26,6 +26,7 @@ public class NoteServiceTest {
     MemberService memberService;
     static Long i = 100L;
     static Long j = 300L;
+    static Long k = 500L;
 
     @Test
     @Transactional
@@ -152,4 +153,35 @@ public class NoteServiceTest {
         assertThat(note2).isIn(foundNotes);
         assertThat(note3).isIn(foundNotes);
     }
+//
+//    @Test
+//    void test() {
+//        // given
+//        MemberDTO memberDTO = new MemberDTO();
+//        memberDTO.setUserId("test");
+//        memberDTO.setPassword("test1234");
+//        memberDTO.setNickname("testtest");
+//        memberDTO.setUsername("테스트");
+//        memberDTO.setPhone("010-0000-0000");
+//        memberService.join(memberDTO);
+//        Member member = memberService.findByUserId("test");
+//
+//        Note note1 = new Note();
+//
+//        Text text1 = new Text();
+//        text1.setContent("hi1");
+//        Text text2 = new Text();
+//        text2.setContent("hi2");
+//        Text text3 = new Text();
+//        text3.setContent("hi3");
+//        List<Text> textList1 = new ArrayList<>();
+//        textList1.add(text1);
+//        textList1.add(text2);
+//        textList1.add(text3);
+//        note1.setText(textList1);
+//        note1.setIsPublic(false);
+//        note1.setMember(member);
+//
+//        noteService.save(note1);
+//    }
 }
