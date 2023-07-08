@@ -12,6 +12,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "db_member")
 public class Member {
 
     @Id
@@ -32,5 +33,9 @@ public class Member {
 
     @Column
     private String nickname;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 }
