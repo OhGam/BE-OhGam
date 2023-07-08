@@ -48,4 +48,9 @@ public class NoteServiceImpl implements NoteService {
     public List<Note> findAllByUserId(String userId) {
         return noteRepository.findAllByUserID(userId);
     }
+
+    @Override
+    public void deleteNote(String userId, LocalDateTime minLocalDateTime, LocalDateTime maxLocalDateTime) {
+        noteRepository.deleteNote(userId, minLocalDateTime, maxLocalDateTime);
+    }
 }

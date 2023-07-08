@@ -31,4 +31,10 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
     // userId로 노트들을 가져오는 메서드
     @Query("select distinct n from Note n join fetch n.member m join fetch n.text t where n.member.userId = :userId")
     List <Note> findAllByUserID(@Param("userId") String userId);
+
+    // userId 및 날짜를 받아 노트를 삭제하는 메서드
+    @Query("DELETE FROM Note n WHERE n.member.userId = :userId AND n.uploadAt BETWEEN :minLocalDateTime AND :maxLocalDateTime")
+    void deleteNote(@Param("userId") String userId, @Param("minLocalDateTime") LocalDateTime minLocalDateTime,
+                    @Param("maxLocalDateTime") LocalDateTime maxLocalDateTime);
+
 }
