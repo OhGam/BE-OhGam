@@ -116,7 +116,7 @@ public class NoteAPIController {
                                      @RequestParam int year, @RequestParam int month, @RequestParam int day) {
         Note note = noteService.findAllByUserIdAndUploadAt(noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
                 LocalDate.of(year, month, day).atTime(LocalTime.MAX)).get(0);
-        if (note.getLikeMember().contains(likeUserId)) {
+        if (note.getLikeMember().contains(memberService.findByUserId(likeUserId).getId())) {
             noteService.removeLikeMemberFromNote(likeUserId, noteUserId, LocalDate.of(year, month, day).atStartOfDay(),
                     LocalDate.of(year, month, day).atTime(LocalTime.MAX));return ResponseEntity.ok().build();
         } else {
